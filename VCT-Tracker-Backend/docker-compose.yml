@@ -1,0 +1,18 @@
+services:
+  vct-scraper:
+    build: .
+    container_name: vct-tracker-scraper
+    restart: unless-stopped
+    env_file:
+      - .env
+    healthcheck:
+      test: pgrep -f 'node worker.js' || exit 1
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
