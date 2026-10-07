@@ -69,6 +69,7 @@ export default function ProfilePage() {
     const [isTeamModalVisible, setIsTeamModalVisible] = useState(false);
     const [isNotifModalVisible, setIsNotifModalVisible] = useState(false);
     const [tempFavTeams, setTempFavTeams] = useState<string[]>([]);
+    const [fullScreenImage, setFullScreenImage] = useState<string | null>(null);
 
     // Image crop state (web only)
     const [cropModalVisible, setCropModalVisible] = useState(false);
@@ -573,7 +574,15 @@ export default function ProfilePage() {
                 </TouchableOpacity>
 
                 <ScrollView contentContainerStyle={styles.scrollContent}>
-                    <TouchableOpacity onPress={pickImage} style={{ alignSelf: 'center' }}>
+                    <TouchableOpacity 
+                        onPress={pickImage} 
+                        onLongPress={() => {
+                            if (userProfile?.pfp) {
+                                setFullScreenImage(userProfile.pfp);
+                            }
+                        }}
+                        style={{ alignSelf: 'center' }}
+                    >
                         <Image 
                             source={userProfile?.pfp ? { uri: userProfile.pfp } : require('../../Logo.jpg')} 
                             style={styles.avatar} 
@@ -628,7 +637,9 @@ export default function ProfilePage() {
                                 <View key={req._id} style={styles.pendingRequestCard}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
                                         {req.sender.pfp ? (
-                                            <Image source={{ uri: req.sender.pfp }} style={styles.friendAvatar} />
+                                            <TouchableOpacity onLongPress={() => setFullScreenImage(req.sender.pfp)}>
+                                                <Image source={{ uri: req.sender.pfp }} style={styles.friendAvatar} />
+                                            </TouchableOpacity>
                                         ) : (
                                             <View style={styles.friendAvatarPlaceholder}>
                                                 <Text style={styles.friendAvatarText}>{req.sender.username[0].toUpperCase()}</Text>
@@ -695,7 +706,9 @@ export default function ProfilePage() {
                                     searchResults.map((user: any) => (
                                         <View key={user._id} style={styles.searchResultItem}>
                                             {user.pfp ? (
-                                                <Image source={{ uri: user.pfp }} style={styles.searchAvatar} />
+                                                <TouchableOpacity onLongPress={() => setFullScreenImage(user.pfp)}>
+                                                    <Image source={{ uri: user.pfp }} style={styles.searchAvatar} />
+                                                </TouchableOpacity>
                                             ) : (
                                                 <View style={styles.searchAvatarPlaceholder}>
                                                     <Text style={styles.searchAvatarText}>{(user.name || user.username)[0].toUpperCase()}</Text>
@@ -748,7 +761,9 @@ export default function ProfilePage() {
                             {userProfile.friends.map((f: any) => (
                                 <View key={f._id} style={styles.friendItem}>
                                     {f.pfp ? (
-                                        <Image source={{ uri: f.pfp }} style={styles.friendAvatar} />
+                                        <TouchableOpacity onLongPress={() => setFullScreenImage(f.pfp)}>
+                                            <Image source={{ uri: f.pfp }} style={styles.friendAvatar} />
+                                        </TouchableOpacity>
                                     ) : (
                                         <View style={styles.friendAvatarPlaceholder}>
                                             <Text style={styles.friendAvatarText}>{f.username[0].toUpperCase()}</Text>
@@ -872,6 +887,25 @@ export default function ProfilePage() {
                     }}
                 />
             )}
+
+            {/* Full Screen Image Modal */}
+            <Modal visible={!!fullScreenImage} transparent={true} animationType="fade">
+                <TouchableOpacity 
+                    style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.9)', justifyContent: 'center', alignItems: 'center' }} 
+                    activeOpacity={1} 
+                    onPress={() => setFullScreenImage(null)}
+                >
+                    <TouchableOpacity style={{ position: 'absolute', top: 40, right: 20, zIndex: 10, padding: 10 }} onPress={() => setFullScreenImage(null)}>
+                        <Ionicons name="close" size={32} color="#fff" />
+                    </TouchableOpacity>
+                    {fullScreenImage && (
+                        <Image 
+                            source={{ uri: fullScreenImage }} 
+                            style={{ width: '90%', height: '80%', resizeMode: 'contain' }} 
+                        />
+                    )}
+                </TouchableOpacity>
+            </Modal>
         </ScreenWrapper>
     );
 }
