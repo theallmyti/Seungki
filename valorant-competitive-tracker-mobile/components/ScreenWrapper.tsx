@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, Platform } from 'react-native';
 
 export function ScreenWrapper({ children }: { children: React.ReactNode }) {
   return (
@@ -11,7 +11,9 @@ export function ScreenWrapper({ children }: { children: React.ReactNode }) {
           resizeMode="cover"
       />
       <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(0, 0, 0, 0.65)' }]} />
-      {children}
+      <View style={{ flex: 1, width: '100%', maxWidth: Platform.OS === 'web' ? 800 : undefined, alignSelf: 'center' }}>
+        {children}
+      </View>
     </View>
   );
 }

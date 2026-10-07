@@ -76,6 +76,7 @@ export default function RootLayout() {
                                             gestureDirection: 'horizontal',
                                         }}>
                                             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                                            <Stack.Screen name="admin" options={{ headerShown: false }} />
                                             <Stack.Screen name="match/[vlrId]" options={{ title: 'Match Details', headerBackTitle: 'Back', headerTransparent: false, headerStyle: { backgroundColor: '#161618' }, headerTintColor: '#fff', headerShadowVisible: false }} />
                                         </Stack>
                                         <NetworkBanner />

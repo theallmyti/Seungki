@@ -607,6 +607,7 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         padding: 24,
         width: '100%',
+        maxWidth: Platform.OS === 'web' ? 500 : undefined,
         alignItems: 'center',
     },
     modalTitle: {

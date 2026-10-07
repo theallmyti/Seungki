@@ -85,57 +85,59 @@ export default function AdminPanel() {
     return (
         <ScreenWrapper>
             <SafeAreaView style={styles.container} edges={['top']}>
-                <View style={styles.header}>
-                    <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
-                        <Ionicons name="arrow-back" size={24} color={Colors.textPrimary} />
-                    </TouchableOpacity>
-                    <Text style={styles.title}>Admin Dashboard</Text>
-                </View>
+                <View style={{ flex: 1, width: '100%', maxWidth: Platform.OS === 'web' ? 800 : undefined, alignSelf: 'center' }}>
+                    <View style={styles.header}>
+                        <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={24} color={Colors.textPrimary} />
+                        </TouchableOpacity>
+                        <Text style={styles.title}>Admin Dashboard</Text>
+                    </View>
 
-                <View style={styles.searchContainer}>
-                    <Ionicons name="search" size={20} color={Colors.textSecondary} style={{ marginRight: 8 }} />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Search by username or UID..."
-                        placeholderTextColor={Colors.textSecondary}
-                        value={searchQuery}
-                        onChangeText={setSearchQuery}
-                        autoCapitalize="none"
-                    />
-                </View>
+                    <View style={styles.searchContainer}>
+                        <Ionicons name="search" size={20} color={Colors.textSecondary} style={{ marginRight: 8 }} />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Search by username or UID..."
+                            placeholderTextColor={Colors.textSecondary}
+                            value={searchQuery}
+                            onChangeText={setSearchQuery}
+                            autoCapitalize="none"
+                        />
+                    </View>
 
-                <ScrollView style={styles.list}>
-                    {allUsers === undefined ? (
-                        <ActivityIndicator size="large" color={Colors.accent} style={{ marginTop: 40 }} />
-                    ) : allUsers.map((u: any) => (
-                        <View key={u._id} style={styles.userCard}>
-                            <View style={styles.userInfo}>
-                                <Text style={styles.username}>@{u.username} {u.isAdmin && <Text style={{color: Colors.accent}}>[ADMIN]</Text>}</Text>
-                                <Text style={styles.coins}>Coins: {u.coins}</Text>
-                            </View>
+                    <ScrollView style={styles.list}>
+                        {allUsers === undefined ? (
+                            <ActivityIndicator size="large" color={Colors.accent} style={{ marginTop: 40 }} />
+                        ) : allUsers.map((u: any) => (
+                            <View key={u._id} style={styles.userCard}>
+                                <View style={styles.userInfo}>
+                                    <Text style={styles.username}>@{u.username} {u.isAdmin && <Text style={{color: Colors.accent}}>[ADMIN]</Text>}</Text>
+                                    <Text style={styles.coins}>Coins: {u.coins}</Text>
+                                </View>
 
-                            <View style={styles.actions}>
-                                <TextInput
-                                    style={styles.coinInput}
-                                    placeholder="Amount"
-                                    placeholderTextColor={Colors.textSecondary}
-                                    keyboardType="numeric"
-                                    value={amountMap[u._id] || ""}
-                                    onChangeText={(val) => setAmountMap(prev => ({ ...prev, [u._id]: val }))}
-                                />
-                                <TouchableOpacity style={styles.giveBtn} onPress={() => handleGiveCoins(u._id, u.username)}>
-                                    <Text style={styles.btnText}>Give</Text>
-                                </TouchableOpacity>
-                                
-                                {u._id !== userId && (
-                                    <TouchableOpacity style={styles.removeBtn} onPress={() => handleRemoveUser(u._id, u.username)}>
-                                        <Ionicons name="trash" size={16} color="#fff" />
+                                <View style={styles.actions}>
+                                    <TextInput
+                                        style={styles.coinInput}
+                                        placeholder="Amount"
+                                        placeholderTextColor={Colors.textSecondary}
+                                        keyboardType="numeric"
+                                        value={amountMap[u._id] || ""}
+                                        onChangeText={(val) => setAmountMap(prev => ({ ...prev, [u._id]: val }))}
+                                    />
+                                    <TouchableOpacity style={styles.giveBtn} onPress={() => handleGiveCoins(u._id, u.username)}>
+                                        <Text style={styles.btnText}>Give</Text>
                                     </TouchableOpacity>
-                                )}
+                                    
+                                    {u._id !== userId && (
+                                        <TouchableOpacity style={styles.removeBtn} onPress={() => handleRemoveUser(u._id, u.username)}>
+                                            <Ionicons name="trash" size={16} color="#fff" />
+                                        </TouchableOpacity>
+                                    )}
+                                </View>
                             </View>
-                        </View>
-                    ))}
-                </ScrollView>
+                        ))}
+                    </ScrollView>
+                </View>
             </SafeAreaView>
         </ScreenWrapper>
     );

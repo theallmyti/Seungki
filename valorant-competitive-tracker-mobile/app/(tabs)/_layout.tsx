@@ -3,6 +3,7 @@ import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../../theme/colors';
 import { useAuth } from '../../providers/AuthProvider';
+import { Platform } from 'react-native';
 
 export default function TabLayout() {
   const { userId } = useAuth();
@@ -18,8 +19,11 @@ export default function TabLayout() {
           elevation: 5,
           position: 'absolute', // Ensures it floats over the background image
           bottom: 24,
-          left: 40,
-          right: 40,
+          left: Platform.OS === 'web' ? undefined : 40,
+          right: Platform.OS === 'web' ? undefined : 40,
+          alignSelf: 'center',
+          width: Platform.OS === 'web' ? '100%' : undefined,
+          maxWidth: Platform.OS === 'web' ? 720 : undefined,
           borderRadius: 24,
           height: 64,
           paddingBottom: 8,

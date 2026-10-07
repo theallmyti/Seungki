@@ -370,6 +370,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.surface,
     borderRadius: 16,
     width: '100%',
+    maxWidth: Platform.OS === 'web' ? 500 : undefined,
+    alignSelf: 'center',
     maxHeight: '80%',
     shadowColor: '#000',
     shadowOffset: {

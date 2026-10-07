@@ -1189,6 +1189,9 @@ const styles = StyleSheet.create({
       backgroundColor: Colors.surface,
       borderRadius: 16,
       padding: 20,
+      width: '100%',
+      maxWidth: Platform.OS === 'web' ? 500 : undefined,
+      alignSelf: 'center',
   },
   modalButtons: {
       flexDirection: 'row',
