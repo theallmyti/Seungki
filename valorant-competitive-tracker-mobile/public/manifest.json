@@ -1,0 +1,24 @@
+{
+  "name": "Seungki",
+  "short_name": "Seungki",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0F1015",
+  "theme_color": "#0F1015",
+  "description": "Seungki Valorant Competitive Tracker",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "expo": {
+    "name": "Seungki",
+    "slug": "93-Stats",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/images/icon.png",
+    "scheme": "vcttracker",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "primaryColor": "#2A2A2A",
+    "backgroundColor": "#2A2A2A",
+    "ios": {
+      "icon": "./assets/images/icon.png",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vcttracker.app",
+      "backgroundColor": "#0F1015",
+      "splash": {
+        "backgroundColor": "#0F1015",
+        "image": "./assets/images/icon.png"
+      },
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIDeviceFamily": [
+          1,
+          2
+        ]
+      },
+      "privacyManifests": {
+        "NSPrivacyTracking": false,
+        "NSPrivacyCollectedDataTypes": [
+          {
+            "NSPrivacyCollectedDataType": "NSPrivacyDataTypeDeviceID",
+            "NSPrivacyCollectedDataTypeLinked": false,
+            "NSPrivacyCollectedDataTypeTracking": false,
+            "NSPrivacyCollectedDataTypePurposes": [
+              "NSPrivacyPurposeAnalytics"
+            ]
+          },
+          {
+            "NSPrivacyCollectedDataType": "NSPrivacyDataTypeProductInteraction",
+            "NSPrivacyCollectedDataTypeLinked": false,
+            "NSPrivacyCollectedDataTypeTracking": false,
+            "NSPrivacyCollectedDataTypePurposes": [
+              "NSPrivacyPurposeAnalytics"
+            ]
+          },
+          {
+            "NSPrivacyCollectedDataType": "NSPrivacyDataTypeDiagnostics",
+            "NSPrivacyCollectedDataTypeLinked": false,
+            "NSPrivacyCollectedDataTypeTracking": false,
+            "NSPrivacyCollectedDataTypePurposes": [
+              "NSPrivacyPurposeAnalytics"
+            ]
+          }
+        ]
+      }
+    },
+    "android": {
+      "icon": "./assets/images/icon.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#0F1015"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
+      "package": "com.vcttracker.app",
+      "backgroundColor": "#0F1015",
+      "splash": {
+        "backgroundColor": "#0F1015",
+        "image": "./assets/images/adaptive-icon.png",
+        "resizeMode": "contain"
+      }
+    },
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "web": {
+      "favicon": "./assets/images/icon.png",
+      "name": "Seungki",
+      "shortName": "Seungki",
+      "backgroundColor": "#0F1015",
+      "themeColor": "#0F1015",
+      "output": "static",
+      "bundler": "metro"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "27c13427-c903-456c-83bf-1bde109c49db"
+      }
+    },
+    "plugins": [
+      "expo-localization",
+      "expo-router"
+    ],
+    "owner": "theallmyti"
+  }
+}
