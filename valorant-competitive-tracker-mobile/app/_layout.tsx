@@ -5,7 +5,7 @@ import { AuthProvider } from '../providers/AuthProvider';
 import { NetworkBanner } from '../components/NetworkBanner';
 import { Colors } from '../theme/colors';
 import { useFonts, Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter';
-import { ActivityIndicator, View, StatusBar } from 'react-native';
+import { ActivityIndicator, View, StatusBar, Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider, DarkTheme } from '@react-navigation/native';
 import Aptabase from '@aptabase/react-native';
@@ -54,35 +54,37 @@ export default function RootLayout() {
             <AnimatedSplashScreen isReady={fontsLoaded}>
                 <View style={{ flex: 1, backgroundColor: '#0F1015' }}>
                     <ThemeProvider value={TransparentTheme}>
-                        <NetworkProvider>
-                            <ConvexClientProvider>
-                                <AuthProvider>
-                                    <PushNotificationWrapper>
-                                        <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-                                        <Stack screenOptions={{
-                                        headerStyle: {
-                                            backgroundColor: 'rgba(54, 54, 54, 0.7)', // Semi-transparent surface
-                                        },
-                                        headerTintColor: '#fff',
-                                        headerTitleStyle: {
-                                            fontFamily: 'Inter_600SemiBold',
-                                        },
-                                        contentStyle: {
-                                            backgroundColor: 'transparent'
-                                        },
-                                        headerTransparent: true,
-                                        gestureEnabled: true,
-                                        gestureDirection: 'horizontal',
-                                    }}>
-                                        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                                        <Stack.Screen name="match/[vlrId]" options={{ title: 'Match Details', headerBackTitle: 'Back', headerTransparent: false, headerStyle: { backgroundColor: '#161618' }, headerTintColor: '#fff', headerShadowVisible: false }} />
-                                    </Stack>
-                                    <NetworkBanner />
-                                    <VercelAnalytics />
-                                    </PushNotificationWrapper>
-                                </AuthProvider>
-                            </ConvexClientProvider>
-                        </NetworkProvider>
+                        <View style={Platform.OS === 'web' ? { flex: 1, width: '100%', maxWidth: 800, alignSelf: 'center', borderLeftWidth: 1, borderRightWidth: 1, borderColor: 'rgba(255,255,255,0.05)' } : { flex: 1 }}>
+                            <NetworkProvider>
+                                <ConvexClientProvider>
+                                    <AuthProvider>
+                                        <PushNotificationWrapper>
+                                            <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+                                            <Stack screenOptions={{
+                                            headerStyle: {
+                                                backgroundColor: 'rgba(54, 54, 54, 0.7)', // Semi-transparent surface
+                                            },
+                                            headerTintColor: '#fff',
+                                            headerTitleStyle: {
+                                                fontFamily: 'Inter_600SemiBold',
+                                            },
+                                            contentStyle: {
+                                                backgroundColor: 'transparent'
+                                            },
+                                            headerTransparent: true,
+                                            gestureEnabled: true,
+                                            gestureDirection: 'horizontal',
+                                        }}>
+                                            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                                            <Stack.Screen name="match/[vlrId]" options={{ title: 'Match Details', headerBackTitle: 'Back', headerTransparent: false, headerStyle: { backgroundColor: '#161618' }, headerTintColor: '#fff', headerShadowVisible: false }} />
+                                        </Stack>
+                                        <NetworkBanner />
+                                        <VercelAnalytics />
+                                        </PushNotificationWrapper>
+                                    </AuthProvider>
+                                </ConvexClientProvider>
+                            </NetworkProvider>
+                        </View>
                     </ThemeProvider>
                 </View>
             </AnimatedSplashScreen>
