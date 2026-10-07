@@ -885,6 +885,9 @@ const styles = StyleSheet.create({
     padding: 24,
     alignItems: 'center',
     paddingBottom: 100, // Make sure all containers are visible
+    width: '100%',
+    maxWidth: Platform.OS === 'web' ? 600 : undefined,
+    alignSelf: 'center',
   },
   logo: {
     width: 120,
