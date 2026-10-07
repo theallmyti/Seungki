@@ -994,6 +994,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
+    maxWidth: Platform.OS === 'web' ? 600 : undefined,
+    alignSelf: 'center',
     marginBottom: 24,
   },
   statBox: {
@@ -1077,6 +1079,8 @@ const styles = StyleSheet.create({
   },
   addFriendSection: {
       width: '100%',
+      maxWidth: Platform.OS === 'web' ? 600 : undefined,
+      alignSelf: 'center',
       backgroundColor: Colors.surface,
       padding: 16,
       borderRadius: 12,
@@ -1099,6 +1103,8 @@ const styles = StyleSheet.create({
   },
   friendsList: {
       width: '100%',
+      maxWidth: Platform.OS === 'web' ? 600 : undefined,
+      alignSelf: 'center',
   },
   friendItem: {
       flexDirection: 'row',
@@ -1206,6 +1212,8 @@ const styles = StyleSheet.create({
   },
   pendingRequestsSection: {
       width: '100%',
+      maxWidth: Platform.OS === 'web' ? 600 : undefined,
+      alignSelf: 'center',
       backgroundColor: 'rgba(255, 70, 85, 0.1)',
       borderWidth: 1,
       borderColor: 'rgba(255, 70, 85, 0.3)',
