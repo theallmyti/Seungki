@@ -10,6 +10,8 @@ export const Colors = {
     // Accents
     accent: '#3b82f6',
     danger: '#FF4655',
+    success: '#10B981',
+    warning: '#F59E0B',
     // Borders/Dividers
     divider: '#555555',
     dividerSecondary: '#4A4A4A',

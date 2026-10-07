@@ -171,6 +171,9 @@ const styles = StyleSheet.create({
         fontSize: 48,
         marginBottom: 16,
     },
+    emptyIconContainer: {
+        marginBottom: 16,
+    },
     emptyMessage: {
         color: Colors.textSecondary,
         fontSize: 16,
