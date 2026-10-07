@@ -37,18 +37,18 @@ export default function HistoryPage() {
         }
     };
 
-    const renderTransactionText = (type: string, amount: number) => {
+    const renderTransactionText = (type: string, amount: number, teamName?: string) => {
         switch (type) {
             case 'bet_placed':
-                return `Placed a bet of ${amount} coins`;
+                return teamName ? `Placed a bet of ${Math.abs(amount)} coins on ${teamName}` : `Placed a bet of ${Math.abs(amount)} coins`;
             case 'bet_won':
-                return `Won ${amount} coins from a bet`;
+                return teamName ? `Won ${Math.abs(amount)} coins from bet on ${teamName}` : `Won ${Math.abs(amount)} coins from a bet`;
             case 'bet_lost':
-                return `Lost a bet`;
+                return teamName ? `Lost a bet on ${teamName}` : `Lost a bet`;
             case 'fav_team_win':
-                return `Received ${amount} coins (Favorite team won)`;
+                return `Received ${Math.abs(amount)} coins (Favorite team won)`;
             default:
-                return `Transaction: ${amount} coins`;
+                return `Transaction: ${Math.abs(amount)} coins`;
         }
     };
 
@@ -126,7 +126,7 @@ export default function HistoryPage() {
                                     {renderTransactionIcon(item.type)}
                                 </View>
                                 <View style={styles.transactionDetails}>
-                                    <Text style={styles.transactionText}>{renderTransactionText(item.type, item.amount)}</Text>
+                                    <Text style={styles.transactionText}>{renderTransactionText(item.type, item.amount, (item as any).teamName)}</Text>
                                     <Text style={styles.transactionTime}>{formatTimestamp(item.timestamp)}</Text>
                                 </View>
                                 <View style={styles.amountContainer}>
@@ -233,5 +233,6 @@ const styles = StyleSheet.create({
     transactionAmount: {
         fontSize: 16,
         fontFamily: 'Inter_700Bold',
+        color: Colors.textPrimary,
     },
 });

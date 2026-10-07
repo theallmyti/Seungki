@@ -335,8 +335,41 @@ export const getUserTransactions = query({
             .order("desc")
             .collect();
             
-        // We might want to enrich transactions with match details here if needed,
-        // but for now just returning the raw transactions is enough.
-        return transactions;
+        // Enrich transactions with team details
+        const enrichedTransactions = await Promise.all(transactions.map(async (tx) => {
+            let teamName = null;
+            if (tx.matchId && (tx.type === "bet_placed" || tx.type === "bet_won" || tx.type === "bet_lost" || tx.type === "bet_edited" || tx.type === "bet_cancelled")) {
+                const bet = await ctx.db
+                    .query("bets")
+                    .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+                    .filter((q) => q.eq(q.field("matchId"), tx.matchId))
+                    .first();
+                    
+                if (bet) {
+                    const match = await ctx.db
+                        .query("matches")
+                        .withIndex("by_vlr_id", (q) => q.eq("vlrId", tx.matchId))
+                        .first();
+                        
+                    if (match) {
+                        if (match.team1.name === bet.teamId || match.team1.shortName === bet.teamId) {
+                            teamName = match.team1.name;
+                        } else if (match.team2.name === bet.teamId || match.team2.shortName === bet.teamId) {
+                            teamName = match.team2.name;
+                        } else {
+                            teamName = bet.teamId;
+                        }
+                    } else {
+                        teamName = bet.teamId;
+                    }
+                }
+            }
+            return {
+                ...tx,
+                teamName
+            };
+        }));
+        
+        return enrichedTransactions;
     }
 });

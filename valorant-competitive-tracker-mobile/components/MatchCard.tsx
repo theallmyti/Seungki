@@ -326,10 +326,12 @@ export default function MatchCard({ match, showYear }: { match: MatchCardProps; 
 
             {/* Bottom Row: Users placed bet */}
             <View style={styles.bottomRow}>
-                <Pressable onPress={handleUsersPress} style={styles.usersBetContainer}>
-                    <Ionicons name="calendar-outline" size={14} color={Colors.textSecondary} style={{ marginRight: 6 }} />
-                    <Text style={styles.usersBetText}>{actualUsers} users placed bet</Text>
-                </Pressable>
+                {userProfile?.isAdmin && (
+                    <Pressable onPress={handleUsersPress} style={styles.usersBetContainer}>
+                        <Ionicons name="calendar-outline" size={14} color={Colors.textSecondary} style={{ marginRight: 6 }} />
+                        <Text style={styles.usersBetText}>{actualUsers} users placed bet</Text>
+                    </Pressable>
+                )}
                 
                 {match.status === 'completed' && (
                     <Text style={styles.scoreText}>
@@ -515,6 +517,7 @@ const styles = StyleSheet.create({
     teamBadge: {
         flexDirection: 'row',
         alignItems: 'center',
+        flexShrink: 1,
     },
     teamLogo: {
         width: 28,
@@ -532,6 +535,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 15,
         fontFamily: 'Inter_600SemiBold',
+        flexShrink: 1,
     },
     xText: {
         color: 'rgba(255, 255, 255, 0.5)',
