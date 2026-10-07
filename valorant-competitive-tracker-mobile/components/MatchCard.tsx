@@ -89,6 +89,11 @@ const getInitials = (name: string) => {
     return words.map(w => w[0]).join('').toUpperCase().substring(0, 3);
 };
 
+const formatTeamName = (name: string, shortName?: string) => {
+    if (shortName && shortName.length <= 5) return shortName.toUpperCase();
+    return getInitials(name);
+};
+
 export default function MatchCard({ match, showYear }: { match: MatchCardProps; showYear?: boolean }) {
     const router = useRouter();
     const { userId, userProfile } = useAuth();
@@ -277,7 +282,7 @@ export default function MatchCard({ match, showYear }: { match: MatchCardProps; 
                             <View style={styles.teamLogoPlaceholder} />
                         )}
                         <Text style={styles.teamNameText} numberOfLines={1}>
-                            {match.team1.shortName || getInitials(match.team1.name)}
+                            {formatTeamName(match.team1.name, match.team1.shortName)}
                         </Text>
                     </View>
 
@@ -290,7 +295,7 @@ export default function MatchCard({ match, showYear }: { match: MatchCardProps; 
                             <View style={styles.teamLogoPlaceholder} />
                         )}
                         <Text style={styles.teamNameText} numberOfLines={1}>
-                            {match.team2.shortName || getInitials(match.team2.name)}
+                            {formatTeamName(match.team2.name, match.team2.shortName)}
                         </Text>
                     </View>
                 </View>
@@ -326,12 +331,10 @@ export default function MatchCard({ match, showYear }: { match: MatchCardProps; 
 
             {/* Bottom Row: Users placed bet */}
             <View style={styles.bottomRow}>
-                {userProfile?.isAdmin && (
-                    <Pressable onPress={handleUsersPress} style={styles.usersBetContainer}>
-                        <Ionicons name="calendar-outline" size={14} color={Colors.textSecondary} style={{ marginRight: 6 }} />
-                        <Text style={styles.usersBetText}>{actualUsers} users placed bet</Text>
-                    </Pressable>
-                )}
+                <Pressable onPress={handleUsersPress} style={styles.usersBetContainer}>
+                    <Ionicons name="calendar-outline" size={14} color={Colors.textSecondary} style={{ marginRight: 6 }} />
+                    <Text style={styles.usersBetText}>{actualUsers} users placed bet</Text>
+                </Pressable>
                 
                 {match.status === 'completed' && (
                     <Text style={styles.scoreText}>
@@ -357,7 +360,9 @@ export default function MatchCard({ match, showYear }: { match: MatchCardProps; 
                                     )}
                                     <View style={styles.bettorInfo}>
                                         <Text style={styles.bettorName}>@{bet.username}</Text>
-                                        <Text style={styles.bettorAmount}>{bet.amount} coins on {bet.teamId}</Text>
+                                        {userProfile?.isAdmin && (
+                                            <Text style={styles.bettorAmount}>{bet.amount} coins on {bet.teamId}</Text>
+                                        )}
                                     </View>
                                 </View>
                             )) : (

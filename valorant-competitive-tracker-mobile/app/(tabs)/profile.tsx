@@ -918,6 +918,8 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: '100%',
+    maxWidth: Platform.OS === 'web' ? 400 : undefined,
+    alignSelf: 'center',
     marginBottom: 24,
   },
   input: {
@@ -953,6 +955,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 8,
     width: '100%',
+    maxWidth: Platform.OS === 'web' ? 400 : undefined,
+    alignSelf: 'center',
     alignItems: 'center',
   },
   primaryButtonText: {
@@ -973,6 +977,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 8,
     width: '100%',
+    maxWidth: Platform.OS === 'web' ? 400 : undefined,
+    alignSelf: 'center',
     alignItems: 'center',
     marginTop: 24,
   },

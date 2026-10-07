@@ -42,9 +42,9 @@ export default function HistoryPage() {
             case 'bet_placed':
                 return teamName ? `Placed a bet of ${Math.abs(amount)} coins on ${teamName}` : `Placed a bet of ${Math.abs(amount)} coins`;
             case 'bet_won':
-                return teamName ? `Won ${Math.abs(amount)} coins from bet on ${teamName}` : `Won ${Math.abs(amount)} coins from a bet`;
+                return teamName ? `You placed bet on ${teamName} that's why you won ${Math.abs(amount)} coins` : `Won ${Math.abs(amount)} coins from a bet`;
             case 'bet_lost':
-                return teamName ? `Lost a bet on ${teamName}` : `Lost a bet`;
+                return teamName ? `You placed bet on ${teamName} and lost` : `Lost a bet`;
             case 'fav_team_win':
                 return `Received ${Math.abs(amount)} coins (Favorite team won)`;
             default:
@@ -61,7 +61,7 @@ export default function HistoryPage() {
             );
         } else if (amount > 0) {
             return (
-                <Text style={[styles.transactionAmount, { color: Colors.success }]}>
+                <Text style={[styles.transactionAmount, { color: '#4ADE80' }]}>
                     +{amount}
                 </Text>
             );
