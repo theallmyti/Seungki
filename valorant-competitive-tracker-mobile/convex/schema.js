@@ -26,6 +26,8 @@ export default defineSchema({
         lastFavoriteUpdate: v.optional(v.number()),
         shortId: v.optional(v.string()), // 10-digit UID
         isAdmin: v.optional(v.boolean()),
+        isSuspended: v.optional(v.boolean()),
+        pushToken: v.optional(v.string()),
     }).index("by_username", ["username"])
       .index("by_shortId", ["shortId"]),
 

@@ -404,6 +404,8 @@ export const getUserProfile = query({
             lastFavoriteUpdate: user.lastFavoriteUpdate,
             shortId,
             isAdmin: user.isAdmin,
+            isSuspended: user.isSuspended,
+            pushToken: user.pushToken,
         };
     }
 });
@@ -463,6 +465,14 @@ export const updateFavoriteTeams = mutation({
             lastFavoriteUpdate: now
         });
 
+        return { success: true };
+    }
+});
+
+export const updatePushToken = mutation({
+    args: { userId: v.id("users"), pushToken: v.string() },
+    handler: async (ctx, args) => {
+        await ctx.db.patch(args.userId, { pushToken: args.pushToken });
         return { success: true };
     }
 });

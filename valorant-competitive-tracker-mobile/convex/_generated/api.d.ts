@@ -11,6 +11,8 @@
 import type * as admin from "../admin.js";
 import type * as auth from "../auth.js";
 import type * as bets from "../bets.js";
+import type * as crons from "../crons.js";
+import type * as expoPush from "../expoPush.js";
 import type * as matches from "../matches.js";
 import type * as shared from "../shared.js";
 import type * as users from "../users.js";
@@ -25,6 +27,8 @@ declare const fullApi: ApiFromModules<{
   admin: typeof admin;
   auth: typeof auth;
   bets: typeof bets;
+  crons: typeof crons;
+  expoPush: typeof expoPush;
   matches: typeof matches;
   shared: typeof shared;
   users: typeof users;

@@ -1,4 +1,5 @@
 import { mutation, query, internalMutation } from "./_generated/server";
+import { api } from "./_generated/api";
 import { v } from "convex/values";
 
 // ── Migration helpers ──────────────────────────────────────────────────────
@@ -270,6 +271,15 @@ export const resolveMatchBets = async (ctx, args) => {
             matchId: args.matchId,
             timestamp: Date.now()
         });
+        
+        const user = await ctx.db.get(bet.userId);
+        if (user && user.pushToken) {
+            await ctx.scheduler.runAfter(0, api.expoPush.sendExpoPushNotification, {
+                pushToken: user.pushToken,
+                title: "Bet Lost",
+                body: `You lost your bet of ${bet.amount} coins on match ${args.matchId}.`,
+            });
+        }
     }
     
     // Process winners
@@ -295,6 +305,13 @@ export const resolveMatchBets = async (ctx, args) => {
         const user = await ctx.db.get(bet.userId);
         if (user) {
             await ctx.db.patch(user._id, { coins: user.coins + payout });
+            if (user.pushToken) {
+                await ctx.scheduler.runAfter(0, api.expoPush.sendExpoPushNotification, {
+                    pushToken: user.pushToken,
+                    title: "Bet Won!",
+                    body: `You won ${payout} coins (Profit: ${profit}) on match ${args.matchId}!`,
+                });
+            }
         }
         
         // Record transaction for the total payout

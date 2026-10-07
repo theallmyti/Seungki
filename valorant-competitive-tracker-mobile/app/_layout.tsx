@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import { trackEvent } from '@aptabase/react-native';
 import { AnimatedSplashScreen } from '../components/AnimatedSplashScreen';
 import { VercelAnalytics } from '../components/VercelAnalytics';
+import { PushNotificationWrapper } from '../components/PushNotificationWrapper';
 import * as SystemUI from 'expo-system-ui';
 
 SystemUI.setBackgroundColorAsync('#0F1015');
@@ -56,8 +57,9 @@ export default function RootLayout() {
                         <NetworkProvider>
                             <ConvexClientProvider>
                                 <AuthProvider>
-                                    <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-                                    <Stack screenOptions={{
+                                    <PushNotificationWrapper>
+                                        <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+                                        <Stack screenOptions={{
                                         headerStyle: {
                                             backgroundColor: 'rgba(54, 54, 54, 0.7)', // Semi-transparent surface
                                         },
@@ -77,6 +79,7 @@ export default function RootLayout() {
                                     </Stack>
                                     <NetworkBanner />
                                     <VercelAnalytics />
+                                    </PushNotificationWrapper>
                                 </AuthProvider>
                             </ConvexClientProvider>
                         </NetworkProvider>
