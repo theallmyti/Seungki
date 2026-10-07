@@ -12,7 +12,11 @@ import { HomePageSkeleton } from '../../components/SkeletonLoaders';
 import { useNetwork } from '../../providers/NetworkProvider';
 import { useState, useRef } from 'react';
 
+import { useWindowDimensions } from 'react-native';
+
 const Section = ({ title, data }: { title: string, data: any[] | undefined }) => {
+  const { width } = useWindowDimensions();
+  
   if (!data || data.length === 0) {
     return null; // Don't render section if there's no data
   }
@@ -25,16 +29,23 @@ const Section = ({ title, data }: { title: string, data: any[] | undefined }) =>
     return acc;
   }, {} as Record<string, any[]>);
 
+  // Determine column count based on screen width
+  let colCount = 1;
+  if (Platform.OS === 'web') {
+    if (width > 768) colCount = 3;
+    else if (width > 480) colCount = 2;
+  }
+
   return (
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>{title}</Text>
       {Object.entries(groupedData).map(([eventName, matches]) => (
-        <View key={eventName} style={[styles.tournamentGroup, Platform.OS === 'web' && { flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 16 }]}>
+        <View key={eventName} style={[styles.tournamentGroup, colCount > 1 && { flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 16 }]}>
           <View style={{ width: '100%' }}>
-            <Text style={[styles.tournamentTitle, Platform.OS === 'web' && { marginLeft: 0 }]}>{eventName}</Text>
+            <Text style={[styles.tournamentTitle, colCount > 1 && { marginLeft: 0 }]}>{eventName}</Text>
           </View>
           {(matches as any[]).map((match) => (
-            <View key={match.vlrId} style={Platform.OS === 'web' ? { width: '33.33%', paddingHorizontal: 8 } : undefined}>
+            <View key={match.vlrId} style={colCount > 1 ? { width: `${100 / colCount}%`, paddingHorizontal: 8 } : undefined}>
               <MatchCard match={match} />
             </View>
           ))}

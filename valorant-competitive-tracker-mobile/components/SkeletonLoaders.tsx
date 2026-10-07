@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet, Animated, Easing } from 'react-native';
+import { View, StyleSheet, Animated, Easing, useWindowDimensions, Platform } from 'react-native';
 import { Colors } from '../theme/colors';
 
 // =============================================================================
@@ -91,20 +91,31 @@ export function MatchCardSkeleton() {
 // =============================================================================
 
 export function HomePageSkeleton() {
+    const { width } = useWindowDimensions();
+    const colCount = Platform.OS === 'web' && width > 768 ? 3 : Platform.OS === 'web' && width > 480 ? 2 : 1;
+
     return (
         <View style={skeletonStyles.pageContainer}>
             {/* "Live" section title */}
             <View style={skeletonStyles.section}>
                 <ShimmerBlock width={80} height={22} style={skeletonStyles.sectionTitle} />
-                <MatchCardSkeleton />
+                <View style={colCount > 1 ? { flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -8 } : undefined}>
+                    <View style={colCount > 1 ? { width: `${100 / colCount}%`, paddingHorizontal: 8 } : undefined}>
+                        <MatchCardSkeleton />
+                    </View>
+                </View>
             </View>
 
             {/* "Upcoming" section title */}
             <View style={skeletonStyles.section}>
                 <ShimmerBlock width={120} height={22} style={skeletonStyles.sectionTitle} />
-                <MatchCardSkeleton />
-                <MatchCardSkeleton />
-                <MatchCardSkeleton />
+                <View style={colCount > 1 ? { flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -8 } : undefined}>
+                    {[1, 2, 3].map((i) => (
+                        <View key={i} style={colCount > 1 ? { width: `${100 / colCount}%`, paddingHorizontal: 8 } : undefined}>
+                            <MatchCardSkeleton />
+                        </View>
+                    ))}
+                </View>
             </View>
         </View>
     );
@@ -115,6 +126,9 @@ export function HomePageSkeleton() {
 // =============================================================================
 
 export function ResultsPageSkeleton() {
+    const { width } = useWindowDimensions();
+    const colCount = Platform.OS === 'web' && width > 768 ? 3 : Platform.OS === 'web' && width > 480 ? 2 : 1;
+
     return (
         <View style={skeletonStyles.pageContainer}>
             {/* Search bar placeholder */}
@@ -123,11 +137,13 @@ export function ResultsPageSkeleton() {
             </View>
 
             {/* Match cards */}
-            <MatchCardSkeleton />
-            <MatchCardSkeleton />
-            <MatchCardSkeleton />
-            <MatchCardSkeleton />
-            <MatchCardSkeleton />
+            <View style={colCount > 1 ? { flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -8 } : undefined}>
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <View key={i} style={colCount > 1 ? { width: `${100 / colCount}%`, paddingHorizontal: 8 } : undefined}>
+                        <MatchCardSkeleton />
+                    </View>
+                ))}
+            </View>
         </View>
     );
 }

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, TextInput, TouchableOpacity, Modal, Platform } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, TextInput, TouchableOpacity, Modal, Platform, useWindowDimensions } from 'react-native';
 import { ScreenWrapper } from '../../components/ScreenWrapper';
 import { Colors } from '../../theme/colors';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -48,6 +48,7 @@ export default function ResultsPage() {
   const [showHelpModal, setShowHelpModal] = useState(false);
   const insets = useSafeAreaInsets();
   const isIPad = Platform.OS === 'ios' && Device.deviceType === Device.DeviceType.TABLET;
+  const { width } = useWindowDimensions();
 
 
   const {
@@ -165,7 +166,7 @@ export default function ResultsPage() {
               icon={searchTerm.trim() ? <Ionicons name="search" size={48} color={Colors.textSecondary} /> : <Ionicons name="trophy-outline" size={48} color={Colors.textSecondary} />}
             />
           ) : (
-            <FlatList
+              <FlatList
               data={displayedResults.reduce((acc, match) => {
                 const eventName = match.event?.name || "Other Matches";
                 const lastGroup = acc[acc.length - 1];
@@ -177,18 +178,21 @@ export default function ResultsPage() {
                 return acc;
               }, [] as Array<{ eventName: string, matches: any[] }>)}
               keyExtractor={(item, index) => `${item.eventName}-${index}`}
-              renderItem={({ item }) => (
-                <View style={[styles.tournamentGroup, Platform.OS === 'web' && { paddingHorizontal: 16 }]}>
-                  <Text style={[styles.tournamentTitle, Platform.OS === 'web' && { marginLeft: 0 }]}>{item.eventName}</Text>
-                  <View style={Platform.OS === 'web' ? { flexDirection: 'row', flexWrap: 'wrap' } : undefined}>
-                    {item.matches.map(match => (
-                      <View key={match.vlrId} style={Platform.OS === 'web' ? { width: '33.33%', paddingHorizontal: 8 } : undefined}>
-                        <MatchCard match={match} showYear />
-                      </View>
-                    ))}
+              renderItem={({ item }) => {
+                const colCount = Platform.OS === 'web' && width > 768 ? 3 : Platform.OS === 'web' && width > 480 ? 2 : 1;
+                return (
+                  <View style={[styles.tournamentGroup, colCount > 1 && { paddingHorizontal: 16 }]}>
+                    <Text style={[styles.tournamentTitle, colCount > 1 && { marginLeft: 0 }]}>{item.eventName}</Text>
+                    <View style={colCount > 1 ? { flexDirection: 'row', flexWrap: 'wrap' } : undefined}>
+                      {item.matches.map(match => (
+                        <View key={match.vlrId} style={colCount > 1 ? { width: `${100 / colCount}%`, paddingHorizontal: 8 } : undefined}>
+                          <MatchCard match={match} showYear />
+                        </View>
+                      ))}
+                    </View>
                   </View>
-                </View>
-              )}
+                );
+              }}
               onEndReached={hasMore ? handleLoadMore : undefined}
               onEndReachedThreshold={0.5}
               contentInsetAdjustmentBehavior="automatic"
