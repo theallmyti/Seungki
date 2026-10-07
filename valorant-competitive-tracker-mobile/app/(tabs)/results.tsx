@@ -166,24 +166,29 @@ export default function ResultsPage() {
             />
           ) : (
             <FlatList
-              data={displayedResults}
-              keyExtractor={(item) => item.vlrId}
-              renderItem={({ item, index }) => {
-                const prevItem = index > 0 ? displayedResults[index - 1] : null;
-                const showHeader = !prevItem || prevItem.event.name !== item.event.name;
-                const eventName = item.event?.name || "Other Matches";
-                
-                return (
-                  <View>
-                    {showHeader && (
-                      <View style={styles.tournamentGroup}>
-                        <Text style={styles.tournamentTitle}>{eventName}</Text>
+              data={displayedResults.reduce((acc, match) => {
+                const eventName = match.event?.name || "Other Matches";
+                const lastGroup = acc[acc.length - 1];
+                if (lastGroup && lastGroup.eventName === eventName) {
+                  lastGroup.matches.push(match);
+                } else {
+                  acc.push({ eventName, matches: [match] });
+                }
+                return acc;
+              }, [] as Array<{ eventName: string, matches: any[] }>)}
+              keyExtractor={(item, index) => `${item.eventName}-${index}`}
+              renderItem={({ item }) => (
+                <View style={[styles.tournamentGroup, Platform.OS === 'web' && { paddingHorizontal: 16 }]}>
+                  <Text style={[styles.tournamentTitle, Platform.OS === 'web' && { marginLeft: 0 }]}>{item.eventName}</Text>
+                  <View style={Platform.OS === 'web' ? { flexDirection: 'row', flexWrap: 'wrap' } : undefined}>
+                    {item.matches.map(match => (
+                      <View key={match.vlrId} style={Platform.OS === 'web' ? { width: '33.33%', paddingHorizontal: 8 } : undefined}>
+                        <MatchCard match={match} showYear />
                       </View>
-                    )}
-                    <MatchCard match={item} showYear />
+                    ))}
                   </View>
-                );
-              }}
+                </View>
+              )}
               onEndReached={hasMore ? handleLoadMore : undefined}
               onEndReachedThreshold={0.5}
               contentInsetAdjustmentBehavior="automatic"

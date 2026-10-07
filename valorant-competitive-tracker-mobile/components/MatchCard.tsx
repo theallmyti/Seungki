@@ -473,7 +473,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255, 255, 255, 0.15)',
         borderRadius: 16,
         padding: 16,
-        marginHorizontal: 16,
+        marginHorizontal: Platform.OS === 'web' ? 8 : 16,
         marginVertical: 8,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },

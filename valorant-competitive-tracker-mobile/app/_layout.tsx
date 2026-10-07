@@ -54,7 +54,7 @@ export default function RootLayout() {
             <AnimatedSplashScreen isReady={fontsLoaded}>
                 <View style={{ flex: 1, backgroundColor: '#0F1015' }}>
                     <ThemeProvider value={TransparentTheme}>
-                        <View style={Platform.OS === 'web' ? { flex: 1, width: '100%', maxWidth: 800, alignSelf: 'center', borderLeftWidth: 1, borderRightWidth: 1, borderColor: 'rgba(255,255,255,0.05)' } : { flex: 1 }}>
+                        <View style={{ flex: 1 }}>
                             <NetworkProvider>
                                 <ConvexClientProvider>
                                     <AuthProvider>

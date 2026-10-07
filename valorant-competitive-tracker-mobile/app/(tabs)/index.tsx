@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Animated } from 'react-native';
+import { View, Text, StyleSheet, Animated, Platform } from 'react-native';
 import { ScreenWrapper } from '../../components/ScreenWrapper';
 import { Colors } from '../../theme/colors';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -29,10 +29,14 @@ const Section = ({ title, data }: { title: string, data: any[] | undefined }) =>
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>{title}</Text>
       {Object.entries(groupedData).map(([eventName, matches]) => (
-        <View key={eventName} style={styles.tournamentGroup}>
-          <Text style={styles.tournamentTitle}>{eventName}</Text>
+        <View key={eventName} style={[styles.tournamentGroup, Platform.OS === 'web' && { flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 16 }]}>
+          <View style={{ width: '100%' }}>
+            <Text style={[styles.tournamentTitle, Platform.OS === 'web' && { marginLeft: 0 }]}>{eventName}</Text>
+          </View>
           {(matches as any[]).map((match) => (
-            <MatchCard key={match.vlrId} match={match} />
+            <View key={match.vlrId} style={Platform.OS === 'web' ? { width: '33.33%', paddingHorizontal: 8 } : undefined}>
+              <MatchCard match={match} />
+            </View>
           ))}
         </View>
       ))}
