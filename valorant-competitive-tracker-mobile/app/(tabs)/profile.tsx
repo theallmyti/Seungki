@@ -768,6 +768,15 @@ export default function ProfilePage() {
                             ))}
                         </View>
                     )}
+                    {userProfile?.isAdmin && (
+                        <TouchableOpacity style={[styles.secondaryButton, { backgroundColor: Colors.accent, borderColor: Colors.accent, marginBottom: 12 }]} onPress={() => {
+                            // Using expo-router to navigate to admin screen
+                            // @ts-ignore
+                            import('expo-router').then(r => r.router.push('/admin'));
+                        }}>
+                            <Text style={[styles.secondaryButtonText, { color: '#fff' }]}>Admin Dashboard</Text>
+                        </TouchableOpacity>
+                    )}
 
                     <TouchableOpacity style={styles.secondaryButton} onPress={logout}>
                         <Text style={styles.secondaryButtonText}>Log Out</Text>

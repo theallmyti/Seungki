@@ -403,6 +403,7 @@ export const getUserProfile = query({
             coins: user.coins,
             lastFavoriteUpdate: user.lastFavoriteUpdate,
             shortId,
+            isAdmin: user.isAdmin,
         };
     }
 });

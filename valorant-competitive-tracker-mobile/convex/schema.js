@@ -25,6 +25,7 @@ export default defineSchema({
         coins: v.number(), // Starting balance of 1000
         lastFavoriteUpdate: v.optional(v.number()),
         shortId: v.optional(v.string()), // 10-digit UID
+        isAdmin: v.optional(v.boolean()),
     }).index("by_username", ["username"])
       .index("by_shortId", ["shortId"]),
 
@@ -40,7 +41,7 @@ export default defineSchema({
     transactions: defineTable({
         userId: v.id("users"),
         amount: v.number(),
-        type: v.union(v.literal("bet_placed"), v.literal("bet_won"), v.literal("bet_lost"), v.literal("fav_team_win"), v.literal("bet_edited"), v.literal("bet_refunded")),
+        type: v.union(v.literal("bet_placed"), v.literal("bet_won"), v.literal("bet_lost"), v.literal("fav_team_win"), v.literal("bet_edited"), v.literal("bet_refunded"), v.literal("admin_grant")),
         matchId: v.optional(v.string()), // Optional, only if related to a match
         timestamp: v.number(),
     }).index("by_userId", ["userId"]),
